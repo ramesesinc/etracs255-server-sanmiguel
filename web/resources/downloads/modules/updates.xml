@@ -1,22 +1,22 @@
 <app>
 <env>
 app.title=ETRACS 2.5 build 2.5.03.02.01 (MUNICIPALITY OF SAN MIGUEL)
-app.host=192.168.8.111:8070
+app.host=${app_server_ip}:8070
 app.cluster=osiris3
 app.context=etracs25
-app.help=http://192.168.8.111:8080/help
+app.help=http://${app_server_ip}:8080/help
 app.loader=com.rameses.osiris2.client.OsirisAppLoader
 readTimeout=300000
 connectionTimeout=5000
 
 filemgmt.enabled=false
 
-ws.host=192.168.8.111:8060
-#res.host=192.168.8.111
+ws.host=${app_server_ip}:8060
+#res.host=${app_server_ip}
 
-socketio.host=192.168.8.111:7080
+socketio.host=${app_server_ip}:7080
 
-entity.app.host=192.168.8.111:8070
+entity.app.host=${app_server_ip}:8070
 entity.app.context=etracs25
 </env>
 <modules>
