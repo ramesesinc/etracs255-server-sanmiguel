@@ -1,0 +1,13 @@
+----------------
+Database Patches
+----------------
+1. Open Navicat and connect to "etracs25_viga" database 
+
+2. Execute the following patch scripts: 
+
+   * v255_20210131.upgrade/01-upgrade.sql
+   * v255_20210131.upgrade/02-patch-etracs.sql
+
+   * v255_20210215.patch/mysql/01-patch-etracs.sql
+
+3. Done.

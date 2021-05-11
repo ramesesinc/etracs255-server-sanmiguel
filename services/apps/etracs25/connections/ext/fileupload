@@ -1,0 +1,7 @@
+provider=fileupload
+host=107.21.113.74
+port=7000
+channel=${fileserver_channel}
+uploadDir=${fileserver_dir}/uploads
+downloadDir=${fileserver_dir}/downloads
+debug=true

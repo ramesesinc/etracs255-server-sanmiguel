@@ -1,0 +1,15 @@
+----------------
+Patch Client Lib
+----------------
+1. Download the file "osiris3-client-platform.jar"
+
+2. Close the ETRACS Platform client
+
+3. Copy the file "osiris3-client-platform.jar" 
+   to folder "{etracs25-platform-dir}/lib"
+
+   Overwrite and merge file. 
+
+4. Run the ETRACS Platform client
+
+5. Done.
