@@ -1,6 +1,6 @@
 <app>
 <env>
-app.title=ETRACS 2.5 build 2.5.03.02.01 (MUNICIPALITY OF SAN MIGUEL)
+app.title=ETRACS 2.5 build 2.5.03.02.01 (MUNICIPALITY OF SAN MIGUEL) 
 app.host=${app_server_ip}:8070
 app.cluster=osiris3
 app.context=etracs25
@@ -18,7 +18,7 @@ socketio.host=${app_server_ip}:7080
 
 entity.app.host=${app_server_ip}:8070
 entity.app.context=etracs25
-</env>
+</env> 
 <modules>
     <!-- custom --> 
     <module version="1.00" file="custom/gov-lgu-cantanduanes-rptis-report.jar" />
