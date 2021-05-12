@@ -18,6 +18,9 @@ socketio.host=localhost:7080
 
 entity.app.host=localhost:8070
 entity.app.context=etracs25
+
+rpt.app.host=localhost:8070
+rpt.app.context=etracs25
 </env>
 <modules>
     <!-- custom --> 

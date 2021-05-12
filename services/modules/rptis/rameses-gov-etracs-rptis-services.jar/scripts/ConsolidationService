@@ -586,6 +586,7 @@ class ConsolidationService
         faas.rpu = arpu.rpu 
         faas.rpuid = arpu.rpu.objid 
         faas.realpropertyid = arpu.newrpid 
+        faas.rp = consolidation.rp
         faas.originlguid = consolidation.originlguid
         faasSvc.clearSignatoryInfo(faas)
         return faas 

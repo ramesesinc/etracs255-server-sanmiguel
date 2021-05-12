@@ -1,8 +1,6 @@
 [getStandardReport]
 select 
-  case when pc.objid is not null then pc.name else pcc.name end as classname, 
-  case when pc.objid is not null then pc.orderno else pcc.orderno end as orderno, 
-  case when pc.objid is not null then pc.special else pcc.special end as special, 
+  pc.name as classname, pc.orderno, pc.special,  
   sum(case when ri.revperiod='current' and ri.revtype = 'basic' then ri.amount else 0.0 end)  as basiccurrent,
   sum(case when ri.revtype = 'basic' then ri.discount else 0.0 end)  as basicdisc,
   sum(case when ri.revperiod in ('previous', 'prior') and ri.revtype = 'basic'  then ri.amount else 0.0 end)  as basicprev,
@@ -37,19 +35,13 @@ from remittance rem
   inner join cashreceipt cr on cr.remittanceid = rem.objid 
   inner join rptpayment rp on cr.objid = rp.receiptid 
   inner join rptpayment_item ri on rp.objid = ri.parentid
-  left join rptcompromise rc ON rp.refid = rc.objid
-  left join rptledger rlc ON rc.rptledgerid = rlc.objid
-  left join propertyclassification pcc ON rlc.classification_objid = pcc.objid 
-  left join rptledger rl ON rp.refid = rl.objid
+  left join rptledger rl ON rp.refid = rl.objid  
   left join propertyclassification pc ON rl.classification_objid = pc.objid 
 where ${filter} 
   and cr.objid not in (select receiptid from cashreceipt_void where receiptid=cr.objid) 
   and ri.revperiod <> 'advance'
-group by 
-	case when pc.objid is not null then pc.name else pcc.name end, 
-	case when pc.objid is not null then pc.orderno else pcc.orderno end, 
-	case when pc.objid is not null then pc.special else pcc.special end
-order by case when pc.objid is not null then pc.orderno else pcc.orderno end 
+group by pc.name, pc.orderno, pc.special
+order by pc.orderno 
 
 
 [getAdvanceReport]

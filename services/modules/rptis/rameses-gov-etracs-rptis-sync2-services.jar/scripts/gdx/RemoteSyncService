@@ -9,18 +9,8 @@ public class RemoteSyncDataService {
 	@Service(value="RPTMainSyncDataService")
 	def svc;
 
-	@Service(value="RPTMainSyncService")
-	def oldSvc;
-
 	@ProxyMethod
-	public def receive(syncdata) {
-		return svc.receive(syncdata)
+	public def receive(data) {
+		return svc.receive(data)
 	}
-
-	@ProxyMethod
-	public def createSyncMeta(syncdata) {
-		return oldSvc.createSyncMeta(syncdata)
-	}
-
-
 }

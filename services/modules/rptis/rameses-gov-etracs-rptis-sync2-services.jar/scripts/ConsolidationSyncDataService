@@ -165,7 +165,7 @@ class ConsolidationSyncDataService
 
 	def sendApprovedConsolidation = {syncdata ->
 		def consolidation = [objid: syncdata.refid]
-		return consolidationSupport.getApprovedConsolidation(consolidation)
+		return consolidationSupport.getForApproval(consolidation)
 	}
 
 	def postApprovedConsolidation = {syncdata ->

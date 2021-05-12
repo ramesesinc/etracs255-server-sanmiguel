@@ -36,6 +36,9 @@ class ConsolidationSupportService
     @Service('ConsolidationWorkflowService')
     def workflowSvc
 
+    @DataContext('consolidation')
+    def em_consolidation
+
     @DataContext('consolidation_task')
     def em_task 
 
@@ -112,29 +115,24 @@ class ConsolidationSupportService
 
     @ProxyMethod
     public void postApprovedConsolidation(consolidation) {
-        svc.approveConsolidatedLandFaas(consolidation)
-        
-        svc.getAffectedRpus(consolidation.objid).each{
-            svc.approveAffectedRpuFaasRecord(consolidation, it)
+        def state = em_consolidation.select('state').find([objid: consolidation.objid]).first()?.state;
+        if (!state) {
+            postConsolidationData(consolidation)
+        } else if (!"APPROVED".equalsIgnoreCase(state)) {
+            svc.approveConsolidatedLandFaas(consolidation)
+            svc.getAffectedRpus(consolidation.objid).each{
+                svc.approveAffectedRpuFaasRecord(consolidation, it)
+            }
+            svc.approve(consolidation)
+            consolidation.tasks.each{
+                it.data = consolidation
+                em_task.save(it)
+                svc.updateSignatories(it)
+            }
+            em_task.where('refid = :objid and enddate is null', consolidation).delete() 
+            svc.insertFaasSignatories(consolidation)
         }
-
-        svc.approve(consolidation)
-
-        consolidation.tasks.each{
-            it.data = consolidation
-            em_task.save(it)
-            svc.updateSignatories(it)
-        }
-        em_task.where('refid = :objid and enddate is null', consolidation).delete() 
-
-        svc.insertFaasSignatories(consolidation)
     }
-
-    
-    /*=================================================*/
-
-
-
 
     @ProxyMethod
     public def buildConsolidationData(consolidation){

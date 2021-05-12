@@ -113,7 +113,9 @@ class SubdivisionSupport2Service
     @ProxyMethod
     public def postApprovedSubdivision(subdivision){
         def state = svc.getState( subdivision )
-        if (state  && ! state.equalsIgnoreCase('APPROVED')){
+        if (!state) {
+            postSubdivisionData(subdivision)
+        } else if (! state.equalsIgnoreCase('APPROVED')){
             subdivision.tasks.each{
                 em_subdivision_task.save(it)
             }
@@ -122,7 +124,7 @@ class SubdivisionSupport2Service
             svc.approve(subdivision)
 
             notifyRecommender(subdivision)
-        }
+        } 
     }
 
 

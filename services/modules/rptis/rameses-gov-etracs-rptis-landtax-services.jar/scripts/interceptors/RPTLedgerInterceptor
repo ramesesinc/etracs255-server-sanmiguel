@@ -78,6 +78,9 @@ class RPTLedgerInterceptor
     public void postFaasToRPTLedger(evt){
         def faas = evt.result 
 
+        def posttoledger = util.toBoolean(var.post_approved_faas_to_ledger, true)
+        if (!posttoledger) return
+
         def org = em_org.select('orgclass').find([root: 1]).first()
         if (org.orgclass.equalsIgnoreCase('PROVINCE')) {
             if (isLedgerExisting(faas)){
@@ -86,7 +89,8 @@ class RPTLedgerInterceptor
         } else {
             if (util.isTrue(faas.datacapture) && hasCurrentPreviousFaas(faas)) {
                 svc.postLedgerFaasData(faas)
-            } else if (util.isTrue(faas.datacapture)) {
+            } 
+            else if (util.isTrue(faas.datacapture)) {
                 postNewLedger(faas)
             }
             else if ((faas.txntype.objid.matches('SD|CS') || isFAASFromSubdivision(faas)) && faas.rpu.rputype == 'land'){
@@ -125,16 +129,13 @@ class RPTLedgerInterceptor
     }
 
     void postNewLedger(faas){
-        def posttoledger = util.toBoolean(var.post_approved_faas_to_ledger,true)
-        if (posttoledger){
-            faas.txntype = em_faas_txntype.find([objid:faas.txntype.objid]).first()
-            def manualledger = findManualLedger(faas)
-            if (manualledger){
-                svc.reconcileManualLedger(faas, manualledger)
-            }
-            else {
-                svc.postNewLedger(faas)
-            }
+        faas.txntype = em_faas_txntype.find([objid:faas.txntype.objid]).first()
+        def manualledger = findManualLedger(faas)
+        if (manualledger){
+            svc.reconcileManualLedger(faas, manualledger)
+        }
+        else {
+            svc.postNewLedger(faas)
         }
     }
 

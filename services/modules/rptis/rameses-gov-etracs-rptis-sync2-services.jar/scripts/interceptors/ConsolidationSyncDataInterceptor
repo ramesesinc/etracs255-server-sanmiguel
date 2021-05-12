@@ -45,7 +45,7 @@ class ConsolidationSyncDataInterceptor
         mainSyncSvc.createDataForSync(getDataForSync(consolidation, 'CONSOLIDATION-REQUIREMENTS'))
     }
 
-    @After(pattern="ConsolidationWorkflowService.signal", eval="#{args[0].state.matches('approver|provapprover') && args[0].action=='completed'}", index=10000) 
+    @After(pattern="ConsolidationWorkflowService.signal", eval="#{args[0].state.matches('approver|provapprover|muniapprover') && args[0].action=='completed'}", index=10000) 
     public void scheduleConsolidationApproval( evt ) {
         def consolidation = evt.args[0].data;
         mainSyncSvc.createDataForSync(getDataForSync(consolidation, 'CONSOLIDATION-APPROVED'))

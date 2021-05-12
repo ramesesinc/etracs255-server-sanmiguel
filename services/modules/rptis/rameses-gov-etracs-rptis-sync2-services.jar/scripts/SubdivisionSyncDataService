@@ -213,7 +213,7 @@ class SubdivisionSyncDataService
 
 	def sendApprovedSubdivision = {syncdata ->
 		def subdivision = [objid: syncdata.refid]
-		return svc.open(subdivision)
+		return subdivisionSupport.getForApproval(subdivision)
 	}
 
 	def postApprovedSubdivision = {syncdata ->

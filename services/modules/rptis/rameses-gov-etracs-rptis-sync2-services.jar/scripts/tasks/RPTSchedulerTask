@@ -11,7 +11,7 @@ class RPTSchedulerTask {
 	@DataContext('rpt_syncdata_forsync')
 	def em_forsync
 
-	@Schedule(interval=5)
+	@Schedule(interval=10)
 	public void processForSync(task) {
 		def items = em_forsync.where('1=1').orderBy('dtfiled').limit(10).list()
 		items.each {

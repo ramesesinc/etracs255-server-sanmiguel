@@ -28,7 +28,7 @@ public class RPTLedgerFaasFact
         this.assessedvalue = 0.0;
     }
 
-    public RPTLedgerFaasFact(ledgerfaas, classification, actualuse){
+    public RPTLedgerFaasFact(ledgerfaas){
         this.tdno = ledgerfaas.tdno
         this.classificationid = ledgerfaas.classification?.objid
         this.actualuseid = ledgerfaas.actualuse?.objid

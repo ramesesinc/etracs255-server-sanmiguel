@@ -10,6 +10,9 @@ class DownloadTask {
     @Service('RPTMainSyncDataService')
     def svc
 
+    @Service('RPTSyncDataManagementService')
+    def mgmtSvc
+
     @DataContext('rpt_syncdata_completed')
     def em_sync_completed
 
@@ -35,6 +38,11 @@ class DownloadTask {
         } catch ( e ) {
             println "DownlaodTask [ERROR] " + e.message;
         }
+    }
+
+    @Schedule(interval=900)
+    public void rescheduleErrors( evt ) {
+        mgmtSvc.rescheduleErrors();
     }
 
     void download(downloadinfo) {

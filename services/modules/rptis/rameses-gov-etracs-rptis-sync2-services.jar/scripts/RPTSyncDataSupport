@@ -27,8 +27,8 @@ class RPTSyncDataSupport
 	public void notifyGroup(param){
         def msg = [
             objid     		: param.objid,
-            senderid  		: param.sender.objid,
-            sender    		: param.sender.name,
+            senderid  		: param.sender?.objid ? param.sender.objid : 'system',
+            sender    		: param.sender?.name ? param.sender?.name : 'system',
             recipientid   	: param.recipientid,
             recipienttype 	: (param.recipienttype ? param.recipienttype : 'group'),
             message   		: param.msg,

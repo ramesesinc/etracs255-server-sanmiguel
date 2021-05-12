@@ -27,7 +27,7 @@ class SubdivisionSyncDataInterceptor
     * SCHEDULING SUPPORT
     *
     ---------------------------------------------------------*/
-    @After(pattern="SubdivisionWorkflowService.signal", eval="#{args[0].state=='forprovsubmission' && args[0].action=='completed'}", index=10000) 
+    @After(pattern="SubdivisionWorkflowService.signal", eval="#{args[0].state.matches('forprovsubmission') && args[0].action=='completed'}", index=10000) 
     public void scheduleSubmitToProvince( evt ) {
         def subdivision = evt.args[0].data;
         mainSyncSvc.createDataForSync(getDataForSync(subdivision, 'SUBDIVISION-FORAPPROVAL'))
@@ -45,7 +45,7 @@ class SubdivisionSyncDataInterceptor
         mainSyncSvc.createDataForSync(getDataForSync(subdivision, 'SUBDIVISION-REQUIREMENTS'))
     }
 
-    @After(pattern="SubdivisionWorkflowService.signal", eval="#{args[0].state.matches('approver|provapprover') && args[0].action=='completed'}", index=10000) 
+    @After(pattern="SubdivisionWorkflowService.signal", eval="#{args[0].state.matches('approver|provapprover|muniapprover') && args[0].action=='completed'}", index=10000) 
     public void scheduleSubdivisionApproval( evt ) {
         def subdivision = evt.args[0].data;
         mainSyncSvc.createDataForSync(getDataForSync(subdivision, 'SUBDIVISION-APPROVED'))

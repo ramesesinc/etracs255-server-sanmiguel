@@ -10,6 +10,7 @@
 		<field name="createdby_objid"  />
 		<field name="createdby_name" caption="Created By"/>
 		<field name="createdby_title" caption="Job Title" />
+		<complex name="info" serializer="default" required="false" />
 	</element>
 </schema>
 

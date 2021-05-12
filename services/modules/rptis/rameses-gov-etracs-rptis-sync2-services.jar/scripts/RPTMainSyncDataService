@@ -39,11 +39,9 @@ class RPTMainSyncDataService {
 
 	@ProxyMethod
 	public def createDataForSync(data) {
-		if (!isNewSycnData(data)) return;
-		
 		data.createdby = [objid: env.USERID, name: env.USER, title: env.JOBTITLE]
 		data.dtfiled = dtSvc.serverDate
-		em_forsync.create(data)
+		em_forsync.save(data)
 		return data
 	}
 
@@ -60,6 +58,7 @@ class RPTMainSyncDataService {
 		syncdata.orgid = data.orgid
 		syncdata.sender = data.createdby
 		syncdata.remote = data.remote
+		syncdata.info = data.info
         syncdata.idx = 0
 		em_sync.create(syncdata)
         return syncdata
@@ -137,11 +136,15 @@ class RPTMainSyncDataService {
 	*
 	--------------------------------------*/
 	@ProxyMethod
-	public def send(syncdata){
-		return coordinator.send(syncdata)
+	public def send(data){
+		def remoteConfig = [
+			orgcode: data.remote.orgcode,
+			service: "RemoteSyncService",
+			module: "etracs25",
+			connection: "rpt",
+		]
+		return coordinator.send(data, remoteConfig)
 	}
-
-
 
 	def safeFileId(id) {
 		return id.replaceAll(":", "");
