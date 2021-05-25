@@ -261,11 +261,13 @@ class RPTCertificationOnlineService {
 		}
 
 		def faasledger = params.faases[0];
-		if (faasledger.lastyearpaid < currdate.year) {
-			throw new Exception('Ledger is not yet paid for the current year.')
-		}
-		if (faasledger.lastqtrpaid < currdate.qtr) {
-			throw new Exception('Ledger is not yet paid for the current quarter.')
+		if (reporttype.name == "fullypaid") {
+			if (faasledger.lastyearpaid < currdate.year) {
+				throw new Exception('Ledger is not yet paid for the current year.')
+			}
+			if (faasledger.lastqtrpaid < currdate.qtr) {
+				throw new Exception('Ledger is not yet paid for the current quarter.')
+			}
 		}
 
 		def treasurer = getTreasurer()
@@ -290,6 +292,7 @@ class RPTCertificationOnlineService {
         	reporttype		 : reporttype,
         	properties 		 : [reporttype: reporttype],
 			entityid 		 : params.faases[0].taxpayer.objid,
+			addlinfo		 : reporttype.title,
 		]
 	}
 

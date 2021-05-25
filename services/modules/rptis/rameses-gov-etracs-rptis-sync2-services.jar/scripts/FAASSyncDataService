@@ -43,6 +43,9 @@ class FAASSyncDataService
 	@Service('RPTUtil')
 	def util
 
+	@DataContext('faas')
+	def em_faas
+
 	@DataContext('faas_task')
 	def em_task
 
@@ -171,7 +174,8 @@ class FAASSyncDataService
 
     def checkTransactionIsLocal(faas) {
         def rootOrg = rptSync.getRootOrg()
-        return faas.originlguid == rootOrg.objid
+		def faasinfo = em_faas.select('originlguid').find([objid: faas.objid]).first();
+        return faasinfo?.originlguid == rootOrg.objid
     }
 
 
